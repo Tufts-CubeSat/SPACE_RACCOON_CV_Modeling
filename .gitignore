@@ -1,0 +1,9 @@
+models/*
+output/*
+detectron2/*
+debris-detection/*
+.venv/*
+.vscode/*
+submission.csv
+models
+detectron2
