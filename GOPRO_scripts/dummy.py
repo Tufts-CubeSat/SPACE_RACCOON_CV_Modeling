@@ -1,3 +1,5 @@
+import time
+
 import requests
 
 # url = "http://10.5.5.9:8080/gopro/camera/analytics/set_client_info"
@@ -10,7 +12,7 @@ print(response.text)
 # Enable Wired camera control over USB
 url = "http://172.23.168.51:8080/gopro/camera/control/wired_usb"
 
-querystring = {"p":"1"} # enum where 1 enables usb control, 0 disables it
+querystring = {"p": "1"}  # enum where 1 enables usb control, 0 disables it
 
 response = requests.request("GET", url, params=querystring)
 if response.status_code == 200:
@@ -33,30 +35,17 @@ print(response.text)
 
 # response = requests.request("GET", url, params=querystring)
 
+# print(response.text)
+
+# turn on raw
+url = "http://10.5.5.9:8080/gopro/camera/setting"
+querystring = {"option": "3"}
+
+response = requests.request("GET", url, params=querystring)
+
 print(response.text)
-# Media stream start
-# url = "http://172.23.168.51:8080/gopro/camera/stream/start"
-
-# querystring = {"port":"8556"}
-
-# response = requests.request("GET", url, params=querystring)
-
-# print(response.text)
-
-# Stops the stream
-# url = "http://172.23.168.51:8080/gopro/camera/stream/stop"
-
-# response = requests.request("GET", url)
-
-# print(response.text)
-
 
 url = "http://172.23.168.51:8080/gopro/camera/shutter/start"
-response = requests.request("POST", url)
-
-print(response.text)
-
-url = "http://172.23.168.51:8080/gopro/camera/shutter/stop"
 response = requests.request("POST", url)
 
 print(response.text)
@@ -65,6 +54,15 @@ print(response.text)
 print("trying to get media path")
 url = "http://172.23.168.51:8080/gopro/media/last_captured"
 
+response = requests.request("GET", url).json()
+
+time.sleep(1)
+
+print("FILE:", response["file"])
+
+url = f"http://172.23.168.51:8080/videos/DCIM/100GOPRO/{response['file']}"
+
 response = requests.request("GET", url)
 
-print(response.text)
+with open("capture.jpg", "wb") as f:
+    f.write(response.content)  # writes to JPEG
