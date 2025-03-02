@@ -7,8 +7,7 @@ def confirm_camera_serial():
     url = f"http://{IP_ADDRESS}/gopro/camera/analytics/set_client_info"
     # Make sure the url is correct for our camera and its serial number
     response = requests.request("GET", url)
-    return response
-    # print(response.text)
+    return response # print(response.text)
 
 def enable_wired_camera():
     # Enable Wired camera control over USB
@@ -20,12 +19,13 @@ def enable_wired_camera():
         print("Wired USB control enabled.")
     else:
         print(f"Failed to enable wired USB control: {response.status_code}")
+    return response
 
 def keep_alive():
 # Keep alive status
     url = f"http://{IP_ADDRESS}/gopro/camera/keep_alive"
     response = requests.request("GET", url)
-    print(response.text)q
+    return response
 
 
 # Get Media File Info
@@ -43,13 +43,12 @@ def enable_raw():
     querystring = {"option": "3"}
 
     response = requests.request("GET", url, params=querystring)
-
-    print(response.text)
+    return response
 
 def capture_image():
     url = f"http://{IP_ADDRESS}/gopro/camera/shutter/start"
     response = requests.request("POST", url)
-    print(response.text)
+    return response
 
 def get_recentFile():
 # Return path to most recently captured media
